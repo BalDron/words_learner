@@ -4,7 +4,7 @@ It opens a file named `dictionary.md`. Example of dictionary contents:
 
 ```
 // section_1
-words, words;das Wort; die Wörter
+word, words;das Wort; die Wörter
 ```
 
 
