@@ -4,6 +4,7 @@ class Processor:
     running = True
     randomise = False
     restart = False
+    reverse = False
     dictionary = {}
     def __init__(self, dictionary):
         self.dictionary  = dictionary
@@ -14,6 +15,7 @@ def print_help():
     print("type \"666\" to finish")
     print("type \"66\" to restart")
     print("type \"6\" to look through available sections")
+    print("type \"000\" to restart with reversed order")
     print("type \"00\" to restart with randomiser")
     print("type \"0\" to restart loop")
 
@@ -40,6 +42,8 @@ def main_cycle(processor):
                 while keys_list[rand_ind] != "0":
                     rand_ind = randrange(0,len(keys))
                 keys_list[rand_ind] = keys[i]
+            elif processor.reverse:
+                keys_list[len(dictionary) - 1 - i] = keys[i]
             else:
                 keys_list[i] = keys[i]
         for i in range(len(keys_list)):
@@ -57,11 +61,17 @@ def main_cycle(processor):
                 break
             elif user_input == "6":
                 print(get_sections())
+            elif user_input == "000":
+                processor.reverse = True
+                processor.randomise = False
+                break
             elif user_input == "00":
                 processor.randomise = True
+                processor.reverse = False
                 break
             elif user_input == "0":
                 processor.randomise = False
+                processor.reverse = False
                 break
             elif user_input == "2":
                 for key in dictionary.keys():
