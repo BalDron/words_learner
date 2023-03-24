@@ -79,14 +79,14 @@ def main_cycle(processor):
                     wanted_data = ""
                     for data in dictionary[key]:
                         wanted_data += data + " "
-                    wanted_data = wanted_data[0:len(wanted_data) - 2]
+                    wanted_data = wanted_data[0:len(wanted_data) - 1]
                     print("<<", wanted_data,"\n")
                 break
             else:
                 wanted_data = ""
                 for data in dictionary[key]:
                     wanted_data += data + " "
-                wanted_data = wanted_data[0:len(wanted_data) - 2]
+                wanted_data = wanted_data[0:len(wanted_data) - 1]
                 if wanted_data == user_input:
                     print("CORRECT")
                 else:

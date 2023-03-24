@@ -53,6 +53,15 @@ def get_dictionary(tags = ""):
             list_form = line.split(";")
             key = list_form[0]
             data = list_form[1:len(list_form)]
+            for i in range(len(data)):
+                tmp = data[i].split()
+                data[i]= ""
+                for j in range(len(tmp)):
+                    if j < len(tmp) - 1:
+                        data[i] += tmp[j] + " "
+                    else:
+                        data[i] += tmp[j]
+                print("'" + data[i] + "'")
             dictionary[key] = data
     return dictionary
 
