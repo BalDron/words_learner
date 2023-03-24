@@ -25,7 +25,6 @@ def get_dictionary(tags = ""):
     lines = ""
     with open("dictionary.md", "r", encoding = "utf-8") as f:
         lines = f.readlines()
-        # lines = f.read().split("\n")
     dictionary = {}
     read_this_section = False
     access_by_number = False
@@ -61,7 +60,6 @@ def get_dictionary(tags = ""):
                         data[i] += tmp[j] + " "
                     else:
                         data[i] += tmp[j]
-                print("'" + data[i] + "'")
             dictionary[key] = data
     return dictionary
 
