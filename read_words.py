@@ -50,7 +50,7 @@ def get_dictionary(tags = ""):
                         break
         elif line.count(" ") == len(line) - 1:
             continue
-        elif line[0:2] != "//" and read_this_section:
+        elif line[0:2] != "##" and read_this_section:
             list_form = line.split(";")
             key = list_form[0]
             data = list_form[1:len(list_form)]
