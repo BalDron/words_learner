@@ -3,7 +3,7 @@ A little tool to learn words.
 It opens a file named `dictionary.md`. Example of dictionary contents:
 
 ```
-// section_1
+## section_1
 word, words;das Wort;die Wörter
 ```
 
