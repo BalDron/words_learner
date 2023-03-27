@@ -8,7 +8,7 @@ def get_sections():
     output = ""
     count = 1
     for line in lines:
-        if line[0:2] == "//":
+        if line[0:2] == "##":
             output += str(count) + ": " + line[2:len(line)]
             count += 1
     return output
