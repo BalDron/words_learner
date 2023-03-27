@@ -31,13 +31,12 @@ def get_dictionary(tags = ""):
     nums = check_tags_for_numbers(tags)
     if len(tags) == 0:
         read_this_section = True
-    else:
-        if len(nums) > 0:
-            access_by_number = True
+    elif len(nums) > 0:
+        access_by_number = True
     counter = 0
     for i in range(len(lines)):
         line = lines[i]
-        if len(tags) > 0 and line[0:2] == "//":
+        if len(tags) > 0 and line[0:2] == "##":
             counter += 1
             read_this_section = False
             if access_by_number:
@@ -45,7 +44,7 @@ def get_dictionary(tags = ""):
                     read_this_section = True
             else:
                 for tag in tags:
-                    if tag in line.split():
+                    if tag in (line[0:len(line) - 1]).split():
                         read_this_section = True
                         break
         elif line.count(" ") == len(line) - 1:
