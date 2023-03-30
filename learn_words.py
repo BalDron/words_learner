@@ -19,7 +19,7 @@ def print_help():
     print("type \"00\" to restart with randomiser")
     print("type \"0\" to restart loop")
 
-def main_cycle(processor):
+def main_cycle(processor, tags):
     from random import randrange
 
     dictionary = processor.dictionary
@@ -33,6 +33,8 @@ def main_cycle(processor):
     processor.restart = False
     processor.randomise = False
     while processor.running:
+        print("~~~~~~~~~~~~~~~~")
+        print("tags:", tags)
         mistakes = 0
         keys_list = ["0"] * len(dictionary)
         keys = [key for key in dictionary.keys()]
@@ -105,18 +107,17 @@ def main_cycle(processor):
         print("~~~~~~~~~~~~~~~~")
         print("mistakes:", mistakes)
         print("randomiser:", processor.randomise)
-        print("~~~~~~~~~~~~~~~~")
     return processor
 
 def main():
     print(get_sections())
     tags = input("enter tags or sections numbers: ").split()
     processor = Processor(get_dictionary(tags))
-    processor = main_cycle(processor)
+    processor = main_cycle(processor, tags)
     while processor.restart:
         print(get_sections())
         tags = input("enter tags or sections numbers: ").split()
         processor.dictionary = get_dictionary(tags)
-        processor = main_cycle(processor)
+        processor = main_cycle(processor, tags)
     check_for_repetitions()
 
