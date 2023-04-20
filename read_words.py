@@ -1,7 +1,7 @@
 def check_for_repetitions():
     pass
 
-def get_sections():
+def get_sections(dictionary = {}):
     lines = ""
     with open("dictionary.md", "r", encoding = "utf-8") as f:
         lines = f.readlines()
@@ -11,7 +11,7 @@ def get_sections():
         if line[0:2] == "##":
             output += str(count) + ": " + line[2:len(line)]
             count += 1
-    return output
+    print(output)
 
 def check_tags_for_numbers(tags):
     res = []

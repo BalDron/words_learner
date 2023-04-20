@@ -1,15 +1,6 @@
 from read_words import *
 
-class Processor:
-    running = True
-    randomise = False
-    restart = False
-    reverse = False
-    dictionary = {}
-    def __init__(self, dictionary):
-        self.dictionary  = dictionary
-
-def print_help():
+def print_help(dictionary = {}):
     print("type \"1\" to see it again")
     print("type \"2\" to look thought all the words in the selected section")
     print("type \"666\" to finish")
@@ -19,9 +10,36 @@ def print_help():
     print("type \"00\" to restart with randomiser")
     print("type \"0\" to restart loop")
 
+def print_current_dictionary(dictionary):
+    for key in dictionary.keys():
+        print(">>", key)
+        wanted_data = ""
+        for data in dictionary[key]:
+            wanted_data += data + " "
+        wanted_data = wanted_data[0:len(wanted_data) - 1]
+        print("<<", wanted_data,"\n")
+
+funcs = {
+    "1" : print_help,
+    "2" : print_current_dictionary,
+    "6" : get_sections,
+}
+
+class Processor:
+    running = True
+    randomise = False
+    restart = False
+    reverse = False
+    dictionary = {}
+    def __init__(self, dictionary):
+        self.dictionary  = dictionary
+
 def main_cycle(processor, tags):
     from random import randrange
-
+    processor.running = True
+    processor.randomise = False
+    processor.restart = False
+    processor.reverse = False
     dictionary = processor.dictionary
     if len(dictionary) == 0:
         print(">> WARNING: dictionary is empty <<")
@@ -29,10 +47,17 @@ def main_cycle(processor, tags):
         return processor
     print_help()
     user_input = ""
-    processor.running = True
-    processor.restart = False
-    processor.randomise = False
     while processor.running:
+        states = {
+            "1"   : [processor.running, processor.randomise, processor.restart, processor.reverse, False],
+            "2"   : [processor.running, processor.randomise, processor.restart, processor.reverse, True ],
+            "666" : [False,             processor.randomise, processor.restart, processor.reverse, True ],
+            "66"  : [False,             processor.randomise, True,              processor.reverse, True ],
+            "6"   : [processor.running, processor.randomise, processor.restart, processor.reverse, False],
+            "000" : [processor.running, processor.randomise, processor.restart, True,              True ],
+            "00"  : [processor.running, True,                processor.restart, processor.reverse, True ],
+            "0"   : [processor.running, False,               processor.restart, False,             True ],
+        }
         print("~~~~~~~~~~~~~~~~")
         print("tags:", tags)
         mistakes = 0
@@ -48,42 +73,19 @@ def main_cycle(processor, tags):
                 keys_list[len(dictionary) - 1 - i] = keys[i]
             else:
                 keys_list[i] = keys[i]
-        for i in range(len(keys_list)):
+        i = 0
+        while i < len(keys_list):
             key = keys_list[i]
             print(i + 1, "/", len(keys_list), "t: '" + key + "'")
             user_input = input(">>> ")
-            if user_input == "1":
-                print_help()
-            elif user_input == "666":
-                processor.running = False
-                break
-            elif user_input == "66":
-                processor.restart = True
-                processor.running = False
-                break
-            elif user_input == "6":
-                print(get_sections())
-            elif user_input == "000":
-                processor.reverse = True
-                processor.randomise = False
-                break
-            elif user_input == "00":
-                processor.randomise = True
-                processor.reverse = False
-                break
-            elif user_input == "0":
-                processor.randomise = False
-                processor.reverse = False
-                break
-            elif user_input == "2":
-                for key in dictionary.keys():
-                    print(">>", key)
-                    wanted_data = ""
-                    for data in dictionary[key]:
-                        wanted_data += data + " "
-                    wanted_data = wanted_data[0:len(wanted_data) - 1]
-                    print("<<", wanted_data,"\n")
-                break
+            if all([c.isdigit() for c in user_input]) and user_input in states:
+                i -= 1
+                processor.running, processor.randomise, processor.restart, processor.reverse, do_break = states[user_input]
+                if user_input in funcs:
+                    print(funcs[user_input])
+                    funcs[user_input](dictionary)
+                if do_break:
+                    break
             else:
                 wanted_data = ""
                 for data in dictionary[key]:
@@ -103,7 +105,7 @@ def main_cycle(processor, tags):
                             wrong = False
                         else:
                             print("NO:'" + wanted_data + "'")
-
+            i += 1
         print("~~~~~~~~~~~~~~~~")
         print("mistakes:", mistakes)
         print("randomiser:", processor.randomise)
